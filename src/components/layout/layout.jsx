@@ -43,30 +43,28 @@ export default view(function Layout(props) {
   }, []);
   return !loaded ? (
     <>
-      <Layout className={layout.layout}>
-        <div>
-          <GoogleFontLoader
-            fonts={[
-              {
-                font: GameStore.game
-                  ? GameStore.game.Styling.FontFamily
-                  : 'Roboto',
-                weights: [400, '400i'],
-              },
-            ]}
-          />
-          {/* <div className={layout.nav}> */}
-          {/* <img
+      <div className={layout.layout}>
+        <GoogleFontLoader
+          fonts={[
+            {
+              font: GameStore.game
+                ? GameStore.game.Styling.FontFamily
+                : 'Roboto',
+              weights: [400, '400i'],
+            },
+          ]}
+        />
+        {/* <div className={layout.nav}> */}
+        {/* <img
             alt=""
             className={layout.logo}
             src={GameStore.game ? GameStore.game.Styling.Logo : null}
           /> */}
 
-          {/* {!!UserStore.name ?  : null} */}
-          {/* </div> */}
-          <div>{props.children}</div>
-        </div>
-      </Layout>
+        {/* {!!UserStore.name ?  : null} */}
+        {/* </div> */}
+        <div>{props.children}</div>
+      </div>
     </>
   ) : (
     <>
