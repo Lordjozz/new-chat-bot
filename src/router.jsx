@@ -17,7 +17,7 @@ export default view(function Router() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" component={RoomPage} />
+        <Route path="/rooms/:name" component={RoomPage} />
       </Switch>
     </BrowserRouter>
   );

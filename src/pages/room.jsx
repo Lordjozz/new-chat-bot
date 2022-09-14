@@ -23,13 +23,14 @@ export default view(function RoomPage() {
   // could have a switch statement that gets the correct image
   // for the character from the url
 
-  // const chatRoom = GameStore.game.ChatRooms.find(
-  //   (_) => _.Name === decodeURI(match.params.name)
-  // );
+  const chatRoom = GameStore.game.ChatRooms.find(
+    (_) => _.Name === decodeURI(match.params.name)
+  );
   // const messages = GameStore.messageHistory.filter(
   //   (_) => _.Room === chatRoom.Name
   // );
 
+  console.log('name');
   useEffect(() => {
     if (chatRef.current) {
       setHeight(chatRef.current.clientHeight);
@@ -72,7 +73,7 @@ export default view(function RoomPage() {
 
   // receive or type new message then scroll to bottom also
 
-  const chatRoom = { Name: 'Klaus' };
+  // const chatRoom = { Name: 'Klaus' };
 
   const messages = [
     { id: 23, From: 'you', Message: 'Hey Klaus' },
@@ -142,8 +143,10 @@ export default view(function RoomPage() {
     // })
   };
 
-  const sendMessage = () => console.log('message', GameStore.messageContent);
-  // GameStore.sendMessage(GameStore.messageContent, null, false, chatRoom.Name);
+  const sendMessage = () => {
+    console.log('message', GameStore.messageContent);
+    GameStore.sendMessage(GameStore.messageContent, null, false, chatRoom.Name);
+  };
 
   function renderMessages() {
     return messages.map((msg) => {
@@ -191,7 +194,7 @@ export default view(function RoomPage() {
             <div className="message-input">
               <input
                 type="text"
-                placeholder="Type message"
+                placeholder="Type a message"
                 onKeyPress={(e) => {
                   console.log(e.key);
                   if (e.key === 'Enter') {
