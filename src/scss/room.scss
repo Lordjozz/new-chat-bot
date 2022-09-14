@@ -30,27 +30,27 @@
 
 
   .chat {
-    display: grid;
-    margin-left: 10px;
+    // display: grid;
+    // margin-left: 10px;
 
-    @media only screen and (max-width: 600px) {
-      margin-top: 10px;
-      margin-left: unset;
-    }
+    // @media only screen and (max-width: 600px) {
+    //   margin-top: 10px;
+    //   margin-left: unset;
+    // }
 
-    grid-template-areas: 
-                  "a a a c"
-                  "a a a c"
-                  "b b b _";
+    // grid-template-areas: 
+    //               "a a a c"
+    //               "a a a c"
+    //               "b b b _";
                   
-    @media only screen and (max-width: 600px) {
-      grid-template-areas: 
-        "c"
-        "a"
-        "b";
-    }
+    // @media only screen and (max-width: 600px) {
+    //   grid-template-areas: 
+    //     "c"
+    //     "a"
+    //     "b";
+    // }
 
-    gap: px;
+    // gap: px;
 
   
 
@@ -80,18 +80,28 @@
 
     .messageWrap {
       background: #f2f6f8;
-      padding: 20px;
+      padding: 10px  20px;
       position:absolute;
       bottom:0;
       right:0;
       left: 0;
+
+      @media(max-width: 575px){
+        padding:10px 20px 20px;
+
+      }
+      
       }
 
     .sendIconWrap {
-      margin-left: 10px;
+      margin-left: 15px;
+
+      :hover {
+        cursor: pointer;
+      }
       > svg {
-        fill:grey;
-        margin-top: 5px;
+        // fill:grey;
+        margin-top: 11px;
       }
     }
 
@@ -104,6 +114,7 @@
         border-radius: 5px;
         border: 1px solid #eee;
         padding-left: 10px;
+        height: 40px;
 
         @media(max-width: 575px){
           width:100%
