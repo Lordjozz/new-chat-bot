@@ -10,28 +10,67 @@ import SendIcon from '@mui/icons-material/Send';
 export default view(function RoomPage() {
   const match = useRouteMatch();
   const chatRef = useRef(null);
+  const messageRef = useRef(null);
   const [height, setHeight] = useState(0);
+  const [screenChange, setScreenChange] = useState(false);
+
+  // this messes up if you flip a tablet sideways
+  // think of other solution
+  const desktop = window.screen.width > 900;
   const headerHeight = 63.5;
-  const messageBarHeight = 74;
+  const messageBarHeight = desktop ? 114 : 80;
   const messageWindow = height - (headerHeight + messageBarHeight);
+  const windowQuery =
+    // const chatRoom = GameStore.game.ChatRooms.find(
+    //   (_) => _.Name === decodeURI(match.params.name)
+    // );
+    // const messages = GameStore.messageHistory.filter(
+    //   (_) => _.Room === chatRoom.Name
+    // );
 
-  // const chatRoom = GameStore.game.ChatRooms.find(
-  //   (_) => _.Name === decodeURI(match.params.name)
-  // );
-  // const messages = GameStore.messageHistory.filter(
-  //   (_) => _.Room === chatRoom.Name
-  // );
+    useEffect(() => {
+      if (chatRef.current) {
+        setHeight(chatRef.current.clientHeight);
+      }
+    }, [screenChange, chatRef]);
 
+  // sets off update of height if tablet orientation changes
   useEffect(() => {
-    if (chatRef.current) {
-      setHeight(chatRef.current.clientHeight);
-    }
-  }, []);
+    window
+      .matchMedia('(orientation: portrait)')
+      .addEventListener('change', (m) => {
+        if (m.matches) {
+          setScreenChange(true);
+        } else {
+          setScreenChange(true);
+        }
+      });
+    window
+      .matchMedia('(orientation: landscape)')
+      .addEventListener('change', (m) => {
+        if (m.matches) {
+          setScreenChange(true);
+        } else {
+          setScreenChange(false);
+        }
+      });
+  }, [setScreenChange]);
+
+  useEffect(
+    function scrollToBottom() {
+      if (messageRef.current) {
+        console.log('SCROLLLL', -messageRef.current.scrollHeight);
+        // messageRef.current.scrollTo(0, -messageRef.current.scrollHeight);
+        messageRef.current.scrollIntoView({
+          behavior: 'smooth',
+        });
+      }
+    },
+    [messageRef]
+  );
 
   // on init, scroll to bottom
   // receive or type new message then scroll to bottom
-
-  console.log('HEIGHT', height);
 
   const chatRoom = { Name: 'Klaus' };
 
@@ -118,6 +157,7 @@ export default view(function RoomPage() {
         <div className="chat">
           <div className="messages">
             <div
+              ref={messageRef}
               id="msgBox"
               style={{
                 maxHeight: messageWindow,
