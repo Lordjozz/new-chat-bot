@@ -1,6 +1,6 @@
 import { view } from '@risingstack/react-easy-state';
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useRouteMatch } from 'react-router';
 import Layout from '../components/layout/layout';
 import GameStore from '../stores/game';
@@ -9,6 +9,11 @@ import SendIcon from '@mui/icons-material/Send';
 
 export default view(function RoomPage() {
   const match = useRouteMatch();
+  const chatRef = useRef(null);
+  const [height, setHeight] = useState(0);
+  const headerHeight = 63.5;
+  const messageBarHeight = 74;
+  const messageWindow = height - (headerHeight + messageBarHeight);
 
   // const chatRoom = GameStore.game.ChatRooms.find(
   //   (_) => _.Name === decodeURI(match.params.name)
@@ -17,11 +22,51 @@ export default view(function RoomPage() {
   //   (_) => _.Room === chatRoom.Name
   // );
 
+  useEffect(() => {
+    if (chatRef.current) {
+      setHeight(chatRef.current.clientHeight);
+    }
+  }, []);
+
+  // on init, scroll to bottom
+  // receive or type new message then scroll to bottom
+
+  console.log('HEIGHT', height);
+
   const chatRoom = { Name: 'Klaus' };
 
   const messages = [
-    { id: 23, From: 'you', Message: 'Hey there' },
-    { id: 23, From: '', Message: 'Im klaus' },
+    { id: 23, From: 'you', Message: 'Hey Klaus' },
+    {
+      id: 25,
+      From: 'them',
+      Message:
+        "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
+    },
+    {
+      id: 26,
+      From: 'you',
+      Message:
+        'I dont know what you mean, can you please explain what I should say to you',
+    },
+    {
+      id: 27,
+      From: 'them',
+      Message:
+        "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
+    },
+    {
+      id: 28,
+      From: 'you',
+      Message:
+        'you keep saying thatbut.I dont know what you mean, can you please explain what I should say to you',
+    },
+    {
+      id: 29,
+      From: 'them',
+      Message:
+        "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
+    },
   ];
 
   // useEffect(() => {
@@ -54,9 +99,7 @@ export default view(function RoomPage() {
       // const type = msg.From === UserStore.name ? 'you' : 'them';
       const type = msg.From;
       return type === 'you' ? (
-        <div className={type}>
-          <p>{msg.Message}</p>
-        </div>
+        <div className={type}>{msg.Message}</div>
       ) : (
         <div className={type}>
           <div dangerouslySetInnerHTML={{ __html: msg.Message }} />
@@ -67,20 +110,21 @@ export default view(function RoomPage() {
 
   return (
     <Layout>
-      <div className="room">
+      <div className="room" ref={chatRef}>
         <div className="header">{chatRoom.Name}</div>
         {/* <div>
           <button onClick={() => getTranscript()}>Get Transcription</button>
         </div> */}
         <div className="chat">
-          <div className="messages" style={{ gridArea: 'a' }}>
+          <div className="messages">
             <div
               id="msgBox"
               style={{
-                maxHeight: 500,
+                maxHeight: messageWindow,
                 overflowY: 'auto',
                 display: 'flex',
                 flexDirection: 'column',
+                marginBottom: '65px',
               }}
             >
               {renderMessages()}
@@ -88,7 +132,7 @@ export default view(function RoomPage() {
           </div>
           <div className="messageWrap">
             {' '}
-            <div className="message-input" style={{ gridArea: 'b' }}>
+            <div className="message-input">
               <input
                 type="text"
                 placeholder="Type message"
@@ -106,36 +150,6 @@ export default view(function RoomPage() {
               </div>
             </div>
           </div>
-
-          {/* <div className="users" style={{ gridArea: 'c' }}> */}
-          {/* Chat Members */}
-          {/* <h2>Users</h2>
-            {chatRoom.Users.filter(
-              (user) =>
-                !GameStore.left
-                  .filter((gs) => gs.Room === chatRoom.Name)
-                  .find((_) => (_.Name = user.Name))
-            ).map((user) => {
-              return (
-                <div>
-                  <p>
-                    <strong>Name:</strong> {user.Name}
-                  </p>
-                  <p>
-                    <strong>IP:</strong> {user.IP}
-                  </p>
-                </div>
-              );
-            })} */}
-          {/* <div style={{ backgroundColor: '#47ff51' }}>
-              <p>
-                <strong>Your Name:</strong> {UserStore.name}
-              </p>
-              <p>
-                <strong>Your IP:</strong> 172.10.42.230
-              </p>
-            </div> */}
-          {/* </div> */}
         </div>
       </div>
     </Layout>
