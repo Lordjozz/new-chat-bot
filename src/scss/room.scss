@@ -17,13 +17,24 @@
   .header {
     background: #f2f6f8;
     margin: 0;
-    padding: 20px;
+    padding: 10px;
     position:sticky;
     font-size: 1.25em;
     font-weight: 700;
     z-index: 1001;
+    display:flex;
   }
 
+  .characterImage{
+    height: 45px;
+    width: 45px;
+    border-radius: 999px;
+    margin-right:10px;
+  }
+
+  .characterName {
+    line-height: 48px;
+  }
 
 
   .chat {

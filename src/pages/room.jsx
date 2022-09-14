@@ -6,6 +6,7 @@ import Layout from '../components/layout/layout';
 import GameStore from '../stores/game';
 import UserStore from '../stores/user';
 import SendIcon from '@mui/icons-material/Send';
+import me from '../images/me.jpeg';
 
 export default view(function RoomPage() {
   const match = useRouteMatch();
@@ -14,25 +15,26 @@ export default view(function RoomPage() {
   const [height, setHeight] = useState(0);
   const [screenChange, setScreenChange] = useState(false);
 
-  // this messes up if you flip a tablet sideways
-  // think of other solution
   const desktop = window.screen.width > 900;
   const headerHeight = 63.5;
   const messageBarHeight = desktop ? 114 : 80;
   const messageWindow = height - (headerHeight + messageBarHeight);
-  const windowQuery =
-    // const chatRoom = GameStore.game.ChatRooms.find(
-    //   (_) => _.Name === decodeURI(match.params.name)
-    // );
-    // const messages = GameStore.messageHistory.filter(
-    //   (_) => _.Room === chatRoom.Name
-    // );
 
-    useEffect(() => {
-      if (chatRef.current) {
-        setHeight(chatRef.current.clientHeight);
-      }
-    }, [screenChange, chatRef]);
+  // could have a switch statement that gets the correct image
+  // for the character from the url
+
+  // const chatRoom = GameStore.game.ChatRooms.find(
+  //   (_) => _.Name === decodeURI(match.params.name)
+  // );
+  // const messages = GameStore.messageHistory.filter(
+  //   (_) => _.Room === chatRoom.Name
+  // );
+
+  useEffect(() => {
+    if (chatRef.current) {
+      setHeight(chatRef.current.clientHeight);
+    }
+  }, [screenChange, chatRef]);
 
   // sets off update of height if tablet orientation changes
   useEffect(() => {
@@ -59,18 +61,16 @@ export default view(function RoomPage() {
   useEffect(
     function scrollToBottom() {
       if (messageRef.current) {
-        console.log('SCROLLLL', -messageRef.current.scrollHeight);
-        // messageRef.current.scrollTo(0, -messageRef.current.scrollHeight);
-        messageRef.current.scrollIntoView({
+        messageRef.current.scrollTo({
           behavior: 'smooth',
+          top: messageRef.current.scrollHeight,
         });
       }
     },
     [messageRef]
   );
 
-  // on init, scroll to bottom
-  // receive or type new message then scroll to bottom
+  // receive or type new message then scroll to bottom also
 
   const chatRoom = { Name: 'Klaus' };
 
@@ -106,6 +106,18 @@ export default view(function RoomPage() {
       Message:
         "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
     },
+    {
+      id: 37,
+      From: 'you',
+      Message:
+        'you keep saying thatbut.I dont know what you mean, can you please explain what I should say to you',
+    },
+    {
+      id: 33,
+      From: 'them',
+      Message:
+        "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
+    },
   ];
 
   // useEffect(() => {
@@ -130,7 +142,7 @@ export default view(function RoomPage() {
     // })
   };
 
-  const sendMessage = () => console.log('message');
+  const sendMessage = () => console.log('message', GameStore.messageContent);
   // GameStore.sendMessage(GameStore.messageContent, null, false, chatRoom.Name);
 
   function renderMessages() {
@@ -138,9 +150,11 @@ export default view(function RoomPage() {
       // const type = msg.From === UserStore.name ? 'you' : 'them';
       const type = msg.From;
       return type === 'you' ? (
-        <div className={type}>{msg.Message}</div>
+        <div key={msg.id} className={type}>
+          {msg.Message}
+        </div>
       ) : (
-        <div className={type}>
+        <div key={msg.id} className={type}>
           <div dangerouslySetInnerHTML={{ __html: msg.Message }} />
         </div>
       );
@@ -150,7 +164,10 @@ export default view(function RoomPage() {
   return (
     <Layout>
       <div className="room" ref={chatRef}>
-        <div className="header">{chatRoom.Name}</div>
+        <div className="header">
+          <img className="characterImage" src={me} alt="Character profile " />
+          <div className="characterName">{chatRoom.Name}</div>
+        </div>
         {/* <div>
           <button onClick={() => getTranscript()}>Get Transcription</button>
         </div> */}
@@ -171,7 +188,6 @@ export default view(function RoomPage() {
             </div>
           </div>
           <div className="messageWrap">
-            {' '}
             <div className="message-input">
               <input
                 type="text"
