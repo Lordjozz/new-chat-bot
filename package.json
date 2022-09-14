@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.3",
+    "@mui/material": "^5.10.5",
     "@risingstack/react-easy-state": "^6.3.0",
     "axios": "^0.21.1",
     "geo-calculator": "^0.1.2",

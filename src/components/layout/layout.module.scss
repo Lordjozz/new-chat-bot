@@ -1,17 +1,21 @@
 .layout {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-  gap: 1em;
+  // margin: 50px;
+
+  // gap: 1em;
 }
 
 .nav {
-  display: flex;
-  gap: 2em;
-  align-items: flex-end;
+  // display: flex;
+  // gap: 2em;
+  // align-items: flex-end;
 }
 
 .logo {
-  max-width: 150px;
-  max-height: 100px;
+  // max-width: 150px;
+  // max-height: 100px;
 }
