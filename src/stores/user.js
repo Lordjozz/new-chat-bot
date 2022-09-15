@@ -5,11 +5,6 @@ export const getStoredValue = (key, store) => {
 
   if (!ls) return null;
   const parsed = JSON.parse(ls);
-  console.log(
-    `%cUser Store - Get Key (${key})`,
-    'font-weight: 700; color: cyan;',
-    parsed[key]
-  );
   return parsed[key];
 };
 

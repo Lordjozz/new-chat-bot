@@ -1,10 +1,6 @@
 .layout {
 
   @media(min-width: 900px){
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // align-items: center;
     margin: 0;
     position: absolute;
     top: 50%;
@@ -12,19 +8,4 @@
     transform: translate(-50%, -50%);
   }
 
-
-  // margin: 50px;
-
-  // gap: 1em;
-}
-
-.nav {
-  // display: flex;
-  // gap: 2em;
-  // align-items: flex-end;
-}
-
-.logo {
-  // max-width: 150px;
-  // max-height: 100px;
 }
