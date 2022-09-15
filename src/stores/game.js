@@ -1,15 +1,15 @@
-import { autoEffect, store } from "@risingstack/react-easy-state";
-import { matchPath } from "react-router";
-import UserStore, { getStoredValue } from "./user";
+import { autoEffect, store } from '@risingstack/react-easy-state';
+import { matchPath } from 'react-router';
+import UserStore, { getStoredValue } from './user';
 
 const GameStore = store({
   game: null,
-  level: getStoredValue("level", "game-stores") || 0,
-  messageHistory: getStoredValue("messageHistory", "game-stores") || [],
-  messageContent: getStoredValue("messageContent", "game-stores"),
-  left: getStoredValue("left", "game-stores") || [],
+  level: getStoredValue('level', 'game-stores') || 0,
+  messageHistory: getStoredValue('messageHistory', 'game-stores') || [],
+  messageContent: getStoredValue('messageContent', 'game-stores'),
+  left: getStoredValue('left', 'game-stores') || [],
   sendMessage: (msg, who = null, reply = false, r = null, c = null) => {
-    const chatBox = document.querySelector("#msgBox");
+    const chatBox = document.querySelector('#msgBox');
 
     //
     //
@@ -17,15 +17,17 @@ const GameStore = store({
     //
     //
 
-    const page = matchPath(window.location.pathname, "/rooms/:name").params;
-    console.log("%cGame Store - Page", "font-weight: 700; color: cyan;", page);
+    const page = matchPath(window.location.pathname, '/rooms/:name').params;
+    console.log('%cGame Store - Page', 'font-weight: 700; color: cyan;', page);
 
-    const localGame = GameStore.game
+    console.log('PAGE', page);
+
+    const localGame = GameStore.game;
 
     const room = localGame.ChatRooms.find(
       (_) => _.Name === decodeURI(page.name)
     );
-    console.log("%cGame Store - Room", "font-weight: 700; color: cyan;", room);
+    console.log('%cGame Store - Room', 'font-weight: 700; color: cyan;', room);
 
     // If it's a game message, only send, don't process
     if (reply) {
@@ -34,10 +36,10 @@ const GameStore = store({
           From: who,
           Message: msg,
           Room: r,
-          Colour: c
+          Colour: c,
         });
         setTimeout(() => {
-          chatBox.scrollTo({ behavior: "smooth", top: chatBox.scrollHeight });
+          chatBox.scrollTo({ behavior: 'smooth', top: chatBox.scrollHeight });
         }, 500);
       }, 900);
       return;
@@ -45,17 +47,17 @@ const GameStore = store({
 
     const playable = room.PuzzlePaths.filter(
       (_) => _.LevelRequirement === GameStore.level
-    ).sort((a, b) => b.Weight > a.Weight ? 1 : -1);
+    ).sort((a, b) => (b.Weight > a.Weight ? 1 : -1));
     console.log(
       `%cGame Store - PuzzlePaths (Matching Level & Sorted) ${playable.length}`,
-      "font-weight: 700; color: cyan;",
+      'font-weight: 700; color: cyan;',
       playable
     );
 
     if (playable.length === 0) {
       console.log(
         `%cGame Store - No playable paths found, odd... User is level ${GameStore.level}`,
-        "font-weight: 700; color: red;"
+        'font-weight: 700; color: red;'
       );
       return;
     }
@@ -70,11 +72,11 @@ const GameStore = store({
         From: name,
         Message: msg,
         Room: r,
-        Colour: UserStore.colour
+        Colour: UserStore.colour,
       });
-      GameStore.messageContent = "";
+      GameStore.messageContent = '';
       setTimeout(() => {
-        chatBox.scrollTo({ behavior: "smooth", top: chatBox.scrollHeight });
+        chatBox.scrollTo({ behavior: 'smooth', top: chatBox.scrollHeight });
       }, 500);
     }
 
@@ -86,8 +88,8 @@ const GameStore = store({
 
     const puzzles = playable;
 
-    console.log("Using Puzzle set", puzzles);
-    const logStyle = "font-weight: 700; color: cyan;";
+    console.log('Using Puzzle set', puzzles);
+    const logStyle = 'font-weight: 700; color: cyan;';
 
     //
     //
@@ -106,31 +108,31 @@ const GameStore = store({
       // Sort the responses workload by weight, lowest (0) will be last
       //
 
-      const sortedResponses = puzzle.Responses.sort(
-        (a, b) => b.Weight > a.Weight ? 1 : -1
-      ).filter(res => {
-        if (!res.RequiresChatters) return true
+      const sortedResponses = puzzle.Responses.sort((a, b) =>
+        b.Weight > a.Weight ? 1 : -1
+      ).filter((res) => {
+        if (!res.RequiresChatters) return true;
 
-        const remainingChatters = res.RequiresChatters.filter(_ => { 
-          console.log('Checking for', _)
-          const inLeft = GameStore.left.findIndex(l => {
-            console.log('in left check', l, l.Name, l.Room)
-            return l.Name === _ && l.Room === room.Name
-          }) !== -1
-          console.log(_, 'in left?', inLeft)
-          return !inLeft
-        })
-        console.log('Remaining chatters', remainingChatters)
-        if (remainingChatters.length === 0) return false
-        return true
-      })
+        const remainingChatters = res.RequiresChatters.filter((_) => {
+          console.log('Checking for', _);
+          const inLeft =
+            GameStore.left.findIndex((l) => {
+              console.log('in left check', l, l.Name, l.Room);
+              return l.Name === _ && l.Room === room.Name;
+            }) !== -1;
+          console.log(_, 'in left?', inLeft);
+          return !inLeft;
+        });
+        console.log('Remaining chatters', remainingChatters);
+        if (remainingChatters.length === 0) return false;
+        return true;
+      });
 
       //
       // Loop through all responses requirements
       //
 
       sortedResponses.forEach((response, i) => {
-
         //
         // If there is a response that is fully matched, don't try the next one
         //
@@ -143,7 +145,7 @@ const GameStore = store({
         }
 
         // This needs to match the length of "Matching" array for a successful response match
-        let matchCount = 0
+        let matchCount = 0;
 
         //
         // Check requirements for response to be sent
@@ -151,11 +153,11 @@ const GameStore = store({
 
         response.Matching.forEach((toMatch, matchIndex) => {
           let matches = false;
-          
+
           const logKey = `${puzzleIndex}:${i}:${matchIndex}`;
 
-          console.log("");
-          console.log("");
+          console.log('');
+          console.log('');
           console.log(`--- Puzzle: ${puzzleIndex} | Matching: ${i} ---`);
           console.log(`%c${logKey} Raw`, logStyle, toMatch);
           console.log(
@@ -170,15 +172,15 @@ const GameStore = store({
           );
           let shouldExit = false;
 
-          if (toMatch.MatchType === "Always") {
+          if (toMatch.MatchType === 'Always') {
             matches = true;
             shouldExit = true;
-            console.log("Matches always, should exit");
+            console.log('Matches always, should exit');
           }
 
           toMatch.MatchWords.forEach((word) => {
-            console.log("");
-            console.log("Exit?", shouldExit ? "Yes" : "No");
+            console.log('');
+            console.log('Exit?', shouldExit ? 'Yes' : 'No');
             if (shouldExit) return;
 
             console.log(`%c${logKey} Trying to match word "${word}"`, logStyle);
@@ -191,67 +193,90 @@ const GameStore = store({
 
             console.log(
               `%c${logKey} Word found in message? ${
-                foundWithin ? "Yes" : "No"
+                foundWithin ? 'Yes' : 'No'
               }`,
               logStyle
             );
 
-            if (toMatch.MatchType === "OneOf" && foundWithin) {
+            if (toMatch.MatchType === 'OneOf' && foundWithin) {
               matches = true;
               shouldExit = true;
-              console.log("Matches one of the requirements, should exit");
+              console.log('Matches one of the requirements, should exit');
               return;
             }
 
-            if (toMatch.MatchType === "AllOf" && foundWithin) {
+            if (toMatch.MatchType === 'AllOf' && foundWithin) {
               matches = true;
               shouldExit = false;
-              console.log("Satisfys one condition of AllOf, should not exit");
+              console.log('Satisfys one condition of AllOf, should not exit');
               return;
             }
 
-            if (toMatch.MatchType === "AllOf" && !foundWithin) {
+            if (toMatch.MatchType === 'AllOf' && !foundWithin) {
               matches = false;
               shouldExit = true;
-              console.log("Does not satisfy AllOf, should exit");
+              console.log('Does not satisfy AllOf, should exit');
               return;
             }
           });
 
-          console.log(`${logKey} Matched?`, matches ? "Yes" : "No");
+          console.log(`${logKey} Matched?`, matches ? 'Yes' : 'No');
 
           // If Matches none, shouldMatchNext = true
           if (matches) {
-            matchCount += 1
+            matchCount += 1;
           }
         });
 
-        console.log('Matched', matchCount, 'required', response.Matching.length)
+        console.log(
+          'Matched',
+          matchCount,
+          'required',
+          response.Matching.length
+        );
         if (matchCount === response.Matching.length) {
           GameStore.level = response.LevelReward;
 
           console.log(
             `%c${puzzleIndex} Rewarding user with level ${response.LevelReward}`,
-            "font-weight: 700; color: orange;"
+            'font-weight: 700; color: orange;'
           );
           shouldMatchNext = false;
 
           response.Messages.forEach((toSend, i) => {
-            console.log("Sending message", toSend.Message);
+            console.log('Sending message', toSend.Message);
             setTimeout(() => {
-              GameStore.sendMessage(toSend.Message, toSend.From, true, room.Name, toSend.Colour);
+              GameStore.sendMessage(
+                toSend.Message,
+                toSend.From,
+                true,
+                room.Name,
+                toSend.Colour
+              );
             }, 700 * (i + 1));
           });
 
           if (response.Leaves && response.Leaves.length) {
             response.Leaves.forEach((person, i) => {
               setTimeout(() => {
-                GameStore.sendMessage(`<strong>${(localGame.LeaveMessage || '::user has left.').replace('::user', person)}</strong>`, '', true, room.Name, 'red')
-              }, 1000 * (i + (1 + response.Messages.length)))
-            })
+                GameStore.sendMessage(
+                  `<strong>${(
+                    localGame.LeaveMessage || '::user has left.'
+                  ).replace('::user', person)}</strong>`,
+                  '',
+                  true,
+                  room.Name,
+                  'red'
+                );
+              }, 1000 * (i + (1 + response.Messages.length)));
+            });
             setTimeout(() => {
-              GameStore.left = GameStore.left.concat(response.Leaves.map(_ => { return { Name: _, Room: room.Name } }))
-            }, 1000 * ((i + (1 + response.Messages.length)) + 1))
+              GameStore.left = GameStore.left.concat(
+                response.Leaves.map((_) => {
+                  return { Name: _, Room: room.Name };
+                })
+              );
+            }, 1000 * (i + (1 + response.Messages.length) + 1));
           }
           return;
         }
@@ -264,7 +289,7 @@ const GameStore = store({
 });
 
 autoEffect(() =>
-  localStorage.setItem("game-stores", JSON.stringify(GameStore))
+  localStorage.setItem('game-stores', JSON.stringify(GameStore))
 );
 
 export default GameStore;

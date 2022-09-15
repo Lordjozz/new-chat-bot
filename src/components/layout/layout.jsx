@@ -10,6 +10,8 @@ import axios from 'axios';
 
 export default view(function Layout(props) {
   const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState();
+
   useEffect(() => {
     // Get the game
     // Get user location
@@ -20,17 +22,32 @@ export default view(function Layout(props) {
       .catch((err) => {
         console.log('err', err);
       });
-
-    // axios.get(process.env.REACT_APP_GAME_API_ENDPOINT).then(e => {
-    //   if (e.status === 200) {
-    //     GameStore.game = e.data
-    //     setLoaded(true)
-    //   }
-    // }).catch(e => {
-    //   window.alert('Issue loading game', e.response ? JSON.stringify(e.response.data) : null)
-    // })
+    axios
+      .get(process.env.REACT_APP_GAME_API_ENDPOINT)
+      .then((e) => {
+        console.log('REEEEs', e);
+        if (e.status === 200) {
+          console.log('data', e.data);
+          GameStore.game = e.data;
+          setLoaded(true);
+        }
+      })
+      .catch((err) => {
+        console.log('result', err);
+        setError(err);
+      });
   }, []);
-  return !loaded ? (
+
+  if (error) {
+    return (
+      <div className="background">
+        Sorry, there was an issue loading the game, try refreshing the page.
+        <div className="error">{error.response.data}</div>
+      </div>
+    );
+  }
+
+  return loaded ? (
     <>
       <div className={layout.layout}>
         <GoogleFontLoader

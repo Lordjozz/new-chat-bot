@@ -25,12 +25,27 @@ export default view(function RoomPage() {
   // could have a switch statement that gets the correct image
   // for the character from the url
 
-  // const chatRoom = GameStore.game.ChatRooms.find(
-  //   (_) => _.Name === decodeURI(match.params.name)
-  //);
-  // const messages = GameStore.messageHistory.filter(
-  //   (_) => _.Room === chatRoom.Name
-  // );
+  const chatRoom = GameStore?.game?.ChatRooms.find(
+    (_) => _.Name === decodeURI(match.params.name)
+  );
+
+  const messages = GameStore?.messageHistory.filter(
+    (_) => _.Room === chatRoom.Name
+  );
+
+  useEffect(() => {
+    if (chatRoom && messages.length === 0) {
+      chatRoom.InitialMessages.forEach((msg) => {
+        GameStore.sendMessage(
+          msg.Message,
+          msg.From,
+          true,
+          chatRoom.Name,
+          msg.Colour
+        );
+      });
+    }
+  }, []); // eslint-disable-line
 
   useEffect(() => {
     if (chatRef.current) {
@@ -62,11 +77,12 @@ export default view(function RoomPage() {
 
   useEffect(
     function scrollToBottom() {
-      console.log('MESSAGE', messageRef.current);
       if (messageRef.current) {
-        messageRef.current.scrollTo({
+        const { current } = messageRef;
+
+        current.scrollTo({
           behavior: 'smooth',
-          top: messageRef.current.scrollHeight,
+          top: current.scrollHeight,
         });
       }
     },
@@ -75,68 +91,54 @@ export default view(function RoomPage() {
 
   // receive or type new message then scroll to bottom also
 
-  const chatRoom = { Name: 'Klaus' };
+  // const chatRoom = { Name: 'Klaus' };
 
-  const messages = [
-    { id: 23, From: 'you', Message: 'Hey Klaus' },
-    {
-      id: 25,
-      From: 'them',
-      Message:
-        "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
-    },
-    {
-      id: 26,
-      From: 'you',
-      Message:
-        'I dont know what you mean, can you please explain what I should say to you',
-    },
-    {
-      id: 27,
-      From: 'them',
-      Message:
-        "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
-    },
-    {
-      id: 28,
-      From: 'you',
-      Message:
-        'you keep saying thatbut.I dont know what you mean, can you please explain what I should say to you',
-    },
-    {
-      id: 29,
-      From: 'them',
-      Message:
-        "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
-    },
-    {
-      id: 37,
-      From: 'you',
-      Message:
-        'you keep saying thatbut.I dont know what you mean, can you please explain what I should say to you',
-    },
-    {
-      id: 33,
-      From: 'them',
-      Message:
-        "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
-      messageType: 'image',
-    },
-  ];
-
-  // useEffect(() => {
-  //   if (messages.length === 0) {
-  //     chatRoom.InitialMessages.forEach((msg) => {
-  //       GameStore.sendMessage(
-  //         msg.Message,
-  //         msg.From,
-  //         true,
-  //         chatRoom.Name,
-  //         msg.Colour
-  //       );
-  //     });
-  //   }
-  // }, []); // eslint-disable-line
+  // const messages = [
+  //   { id: 23, From: 'you', Message: 'Hey Klaus' },
+  //   {
+  //     id: 25,
+  //     From: 'them',
+  //     Message:
+  //       "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
+  //   },
+  //   {
+  //     id: 26,
+  //     From: 'you',
+  //     Message:
+  //       'I dont know what you mean, can you please explain what I should say to you',
+  //   },
+  //   {
+  //     id: 27,
+  //     From: 'them',
+  //     Message:
+  //       "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
+  //   },
+  //   {
+  //     id: 28,
+  //     From: 'you',
+  //     Message:
+  //       'you keep saying thatbut.I dont know what you mean, can you please explain what I should say to you',
+  //   },
+  //   {
+  //     id: 29,
+  //     From: 'them',
+  //     Message:
+  //       "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
+  //   },
+  //   {
+  //     id: 37,
+  //     From: 'you',
+  //     Message:
+  //       'you keep saying thatbut.I dont know what you mean, can you please explain what I should say to you',
+  //   },
+  //   {
+  //     id: 33,
+  //     From: 'them',
+  //     Message:
+  //       "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
+  //     messageType: 'image',
+  //   },
+  // ];
 
   const getTranscript = () => {
     // axios.post(process.env.REACT_APP_GAME_API_ENDPOINT + 'transcript', {messages, email: UserStore.email}).then(e => {
@@ -151,9 +153,10 @@ export default view(function RoomPage() {
   };
 
   function renderMessages() {
-    return messages.map((msg) => {
-      // const type = msg.From === UserStore.name ? 'you' : 'them';
-      const type = msg.From;
+    return messages.map((msg, index) => {
+      const isLast = messages.length - 1 === index;
+      const type = msg.From === UserStore.name ? 'you' : 'them';
+      //const type = msg.From;
       return type === 'you' ? (
         <div key={msg.id} className={type}>
           {msg.Message}
@@ -176,7 +179,7 @@ export default view(function RoomPage() {
       <div className="room" ref={chatRef}>
         <div className="header">
           <img className="characterImage" src={me} alt="Character profile " />
-          <div className="characterName">{chatRoom.Name}</div>
+          <div className="characterName">{chatRoom?.Name}</div>
         </div>
         {/* <div>
           <button onClick={() => getTranscript()}>Get Transcription</button>
@@ -184,8 +187,8 @@ export default view(function RoomPage() {
         <div className="chat">
           <div className="messages">
             <div
-              ref={messageRef}
               id="msgBox"
+              ref={messageRef}
               style={{
                 maxHeight: messageWindow,
                 overflowY: 'auto',
