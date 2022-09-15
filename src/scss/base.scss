@@ -11,27 +11,12 @@
 }
 
 html {
-  // background-color: var(--background);
+   background-color: var(--background);
 }
 
-// html {
-//   display: grid;
-//   justify-content: center;
-//   align-items: center;
-// }
 
 body {
   margin: 0;
-  // min-width: 800px;
-  // min-height: 450px;
-  // @media only screen and (max-width: 600px) {
-  //   min-width: unset;
-  //   width: 93vw;
-  //   min-height: unset;
-  // }
-  // max-width: 1000px;
-  // max-height: 900px;
-
   background-color: var(--background);
 }
 

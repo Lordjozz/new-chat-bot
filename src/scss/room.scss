@@ -38,29 +38,6 @@
 
 
   .chat {
-    // display: grid;
-    // margin-left: 10px;
-
-    // @media only screen and (max-width: 600px) {
-    //   margin-top: 10px;
-    //   margin-left: unset;
-    // }
-
-    // grid-template-areas: 
-    //               "a a a c"
-    //               "a a a c"
-    //               "b b b _";
-                  
-    // @media only screen and (max-width: 600px) {
-    //   grid-template-areas: 
-    //     "c"
-    //     "a"
-    //     "b";
-    // }
-
-    // gap: px;
-
-  
 
     .messages {
 
@@ -120,7 +97,7 @@
         cursor: pointer;
       }
       > svg {
-        // fill:grey;
+      fill:grey;
         margin-top: 11px;
       }
     }

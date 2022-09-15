@@ -17,20 +17,20 @@ export default view(function RoomPage() {
 
   const desktop = window.screen.width > 900;
   const headerHeight = 63.5;
-  const messageBarHeight = desktop ? 114 : 80;
+  const messageBarHeight = desktop ? 120 : 80;
   const messageWindow = height - (headerHeight + messageBarHeight);
+  const disableSubmit = !GameStore.messageContent;
 
   // could have a switch statement that gets the correct image
   // for the character from the url
 
-  const chatRoom = GameStore.game.ChatRooms.find(
-    (_) => _.Name === decodeURI(match.params.name)
-  );
+  // const chatRoom = GameStore.game.ChatRooms.find(
+  //   (_) => _.Name === decodeURI(match.params.name)
+  //);
   // const messages = GameStore.messageHistory.filter(
   //   (_) => _.Room === chatRoom.Name
   // );
 
-  console.log('name');
   useEffect(() => {
     if (chatRef.current) {
       setHeight(chatRef.current.clientHeight);
@@ -73,7 +73,7 @@ export default view(function RoomPage() {
 
   // receive or type new message then scroll to bottom also
 
-  // const chatRoom = { Name: 'Klaus' };
+  const chatRoom = { Name: 'Klaus' };
 
   const messages = [
     { id: 23, From: 'you', Message: 'Hey Klaus' },
@@ -144,7 +144,6 @@ export default view(function RoomPage() {
   };
 
   const sendMessage = () => {
-    console.log('message', GameStore.messageContent);
     GameStore.sendMessage(GameStore.messageContent, null, false, chatRoom.Name);
   };
 
@@ -196,7 +195,6 @@ export default view(function RoomPage() {
                 type="text"
                 placeholder="Type a message"
                 onKeyPress={(e) => {
-                  console.log(e.key);
                   if (e.key === 'Enter') {
                     sendMessage();
                   }
@@ -205,7 +203,11 @@ export default view(function RoomPage() {
                 value={GameStore.messageContent}
               />
               <div className="sendIconWrap">
-                <SendIcon onClick={() => sendMessage()} />
+                <SendIcon
+                  style={{ fill: disableSubmit && 'lightGray' }}
+                  disabled={disableSubmit}
+                  onClick={() => !disableSubmit && sendMessage()}
+                />
               </div>
             </div>
           </div>

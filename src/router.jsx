@@ -9,11 +9,13 @@ export default view(function Router() {
     const cachedLocal = localStorage.getItem('user-stores');
     if (cachedLocal) {
       const parsedUserStore = JSON.parse(cachedLocal);
+
       Object.keys(parsedUserStore).forEach(
         (_) => (UserStore[_] = parsedUserStore[_])
       );
     }
   }, []);
+
   return (
     <BrowserRouter>
       <Switch>
