@@ -7,6 +7,7 @@ import GameStore from '../stores/game';
 import UserStore from '../stores/user';
 import SendIcon from '@mui/icons-material/Send';
 import me from '../images/me.jpeg';
+import glass from '../images/glass.jpg';
 
 export default view(function RoomPage() {
   const match = useRouteMatch();
@@ -20,6 +21,8 @@ export default view(function RoomPage() {
   const messageBarHeight = desktop ? 120 : 80;
   const messageWindow = height - (headerHeight + messageBarHeight);
   const disableSubmit = !GameStore.messageContent;
+
+  const imageURl = 'https://unsplash.com/photos/yx17UuZw1Ck';
 
   // could have a switch statement that gets the correct image
   // for the character from the url
@@ -118,6 +121,7 @@ export default view(function RoomPage() {
       From: 'them',
       Message:
         "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
+      messageType: 'image',
     },
   ];
 
@@ -157,7 +161,12 @@ export default view(function RoomPage() {
         </div>
       ) : (
         <div key={msg.id} className={type}>
-          <div dangerouslySetInnerHTML={{ __html: msg.Message }} />
+          {msg.messageType === 'image' ? (
+            // src={msg.Message}
+            <img className="messageImage" src={glass} alt="" />
+          ) : (
+            <div dangerouslySetInnerHTML={{ __html: msg.Message }} />
+          )}
         </div>
       );
     });
