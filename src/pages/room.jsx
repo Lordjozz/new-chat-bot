@@ -7,7 +7,6 @@ import GameStore from '../stores/game';
 import UserStore from '../stores/user';
 import SendIcon from '@mui/icons-material/Send';
 import me from '../images/me.jpeg';
-import glass from '../images/glass.jpg';
 
 export default view(function RoomPage() {
   const match = useRouteMatch();
@@ -125,8 +124,7 @@ export default view(function RoomPage() {
       ) : (
         <div key={msg.id} className={type}>
           {msg.messageType === 'image' ? (
-            // src={msg.Message}
-            <img className="messageImage" src={glass} alt="" />
+            <img className="messageImage" src={msg.Message} alt="" />
           ) : (
             <div dangerouslySetInnerHTML={{ __html: msg.Message }} />
           )}

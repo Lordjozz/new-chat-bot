@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { view } from '@risingstack/react-easy-state';
-import { Link } from 'react-router-dom';
 import layout from './layout.module.scss';
 import GetUserGeo from '../../helpers/get-user-geo';
 import GameStore from '../../stores/game';
