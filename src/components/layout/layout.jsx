@@ -25,7 +25,6 @@ export default view(function Layout(props) {
     axios
       .get(process.env.REACT_APP_GAME_API_ENDPOINT)
       .then((e) => {
-        console.log('REEEEs', e);
         if (e.status === 200) {
           console.log('data', e.data);
           GameStore.game = e.data;
@@ -65,7 +64,7 @@ export default view(function Layout(props) {
     </>
   ) : (
     <>
-      <div>
+      <div className="background">
         <h1>Loading...</h1>
       </div>
     </>

@@ -20,8 +20,6 @@ const GameStore = store({
     const page = matchPath(window.location.pathname, '/rooms/:name').params;
     console.log('%cGame Store - Page', 'font-weight: 700; color: cyan;', page);
 
-    console.log('PAGE', page);
-
     const localGame = GameStore.game;
 
     const room = localGame.ChatRooms.find(

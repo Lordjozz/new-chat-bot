@@ -1,6 +1,6 @@
 import { view } from '@risingstack/react-easy-state';
 import axios from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useRouteMatch } from 'react-router';
 import Layout from '../components/layout/layout';
 import GameStore from '../stores/game';
@@ -12,13 +12,14 @@ import glass from '../images/glass.jpg';
 export default view(function RoomPage() {
   const match = useRouteMatch();
   const chatRef = useRef(null);
-  const messageRef = useRef(null);
   const [height, setHeight] = useState(0);
   const [screenChange, setScreenChange] = useState(false);
+  const [messageRef, setMessageRef] = useState(null);
 
+  const storedHeight = localStorage.getItem('height');
   const desktop = window.screen.width > 900;
   const headerHeight = 63.5;
-  const messageBarHeight = desktop ? 120 : 80;
+  const messageBarHeight = desktop ? 128 : 100;
   const messageWindow = height - (headerHeight + messageBarHeight);
   const disableSubmit = !GameStore.messageContent;
 
@@ -30,8 +31,41 @@ export default view(function RoomPage() {
   );
 
   const messages = GameStore?.messageHistory.filter(
-    (_) => _.Room === chatRoom.Name
+    (_) => _.Room === chatRoom?.Name
   );
+
+  const onRefChange = useCallback((ref) => {
+    // trigger re-render on changes
+    setMessageRef(ref);
+  }, []);
+
+  // on load scroll to bottom
+  useEffect(
+    function scrollToBottom() {
+      if (messageRef) {
+        messageRef.scrollTo({
+          behavior: 'smooth',
+          top: messageRef.scrollHeight,
+        });
+      }
+    },
+    [messageRef]
+  );
+
+  // set height in state
+  useEffect(() => {
+    if (storedHeight && Object.values(storedHeight).length > 0) {
+      setHeight(JSON.parse(storedHeight));
+    }
+
+    if (chatRef.current) {
+      localStorage.setItem(
+        'height',
+        JSON.stringify(chatRef.current.clientHeight)
+      );
+      setHeight(chatRef.current.clientHeight);
+    }
+  }, [screenChange, chatRef, storedHeight]);
 
   useEffect(() => {
     if (chatRoom && messages.length === 0) {
@@ -45,13 +79,7 @@ export default view(function RoomPage() {
         );
       });
     }
-  }, []); // eslint-disable-line
-
-  useEffect(() => {
-    if (chatRef.current) {
-      setHeight(chatRef.current.clientHeight);
-    }
-  }, [screenChange, chatRef]);
+  }, [chatRoom]);
 
   // sets off update of height if tablet orientation changes
   useEffect(() => {
@@ -74,71 +102,6 @@ export default view(function RoomPage() {
         }
       });
   }, [setScreenChange]);
-
-  useEffect(
-    function scrollToBottom() {
-      if (messageRef.current) {
-        const { current } = messageRef;
-
-        current.scrollTo({
-          behavior: 'smooth',
-          top: current.scrollHeight,
-        });
-      }
-    },
-    [messageRef]
-  );
-
-  // receive or type new message then scroll to bottom also
-
-  // const chatRoom = { Name: 'Klaus' };
-
-  // const messages = [
-  //   { id: 23, From: 'you', Message: 'Hey Klaus' },
-  //   {
-  //     id: 25,
-  //     From: 'them',
-  //     Message:
-  //       "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
-  //   },
-  //   {
-  //     id: 26,
-  //     From: 'you',
-  //     Message:
-  //       'I dont know what you mean, can you please explain what I should say to you',
-  //   },
-  //   {
-  //     id: 27,
-  //     From: 'them',
-  //     Message:
-  //       "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
-  //   },
-  //   {
-  //     id: 28,
-  //     From: 'you',
-  //     Message:
-  //       'you keep saying thatbut.I dont know what you mean, can you please explain what I should say to you',
-  //   },
-  //   {
-  //     id: 29,
-  //     From: 'them',
-  //     Message:
-  //       "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
-  //   },
-  //   {
-  //     id: 37,
-  //     From: 'you',
-  //     Message:
-  //       'you keep saying thatbut.I dont know what you mean, can you please explain what I should say to you',
-  //   },
-  //   {
-  //     id: 33,
-  //     From: 'them',
-  //     Message:
-  //       "It sounds like you don't know how I was being blackmailed. I need to know I can trust you. I won't be telling you anything unless you give me a bit more information about how you figured out how I could be blackmailed",
-  //     messageType: 'image',
-  //   },
-  // ];
 
   const getTranscript = () => {
     // axios.post(process.env.REACT_APP_GAME_API_ENDPOINT + 'transcript', {messages, email: UserStore.email}).then(e => {
@@ -188,10 +151,10 @@ export default view(function RoomPage() {
           <div className="messages">
             <div
               id="msgBox"
-              ref={messageRef}
+              ref={onRefChange}
               style={{
-                maxHeight: messageWindow,
-                overflowY: 'auto',
+                maxHeight: `${messageWindow}px`,
+                overflowY: 'scroll',
                 display: 'flex',
                 flexDirection: 'column',
                 marginBottom: '65px',
