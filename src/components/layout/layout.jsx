@@ -28,6 +28,10 @@ export default view(function Layout(props) {
         if (e.status === 200) {
           console.log('data', e.data);
           GameStore.game = e.data;
+          document.documentElement.style.setProperty(
+            '--fonts',
+            e.data ? e.data.Styling.FontFamily : 'Roboto'
+          );
           setLoaded(true);
         }
       })
@@ -52,9 +56,7 @@ export default view(function Layout(props) {
         <GoogleFontLoader
           fonts={[
             {
-              font: GameStore.game
-                ? GameStore.game.Styling.FontFamily
-                : 'Overpass',
+              font: GameStore.game ? GameStore.game.Styling.FontFamily : '',
               weights: [400, '400i'],
             },
           ]}

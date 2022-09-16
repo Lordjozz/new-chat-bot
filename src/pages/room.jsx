@@ -116,10 +116,8 @@ export default view(function RoomPage() {
   };
 
   function renderMessages() {
-    return messages.map((msg, index) => {
-      const isLast = messages.length - 1 === index;
+    return messages.map((msg) => {
       const type = msg.From === UserStore.name ? 'you' : 'them';
-      //const type = msg.From;
       return type === 'you' ? (
         <div key={msg.id} className={type}>
           {msg.Message}
