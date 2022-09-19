@@ -1,5 +1,4 @@
 import { view } from '@risingstack/react-easy-state';
-import axios from 'axios';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useRouteMatch } from 'react-router';
 import Layout from '../components/layout/layout';
@@ -21,9 +20,6 @@ export default view(function RoomPage() {
   const messageBarHeight = desktop ? 128 : 100;
   const messageWindow = height - (headerHeight + messageBarHeight);
   const disableSubmit = !GameStore.messageContent;
-
-  // could have a switch statement that gets the correct image
-  // for the character from the url
 
   const chatRoom = GameStore?.game?.ChatRooms.find(
     (_) => _.Name === decodeURI(match.params.name)
@@ -102,14 +98,6 @@ export default view(function RoomPage() {
       });
   }, [setScreenChange]);
 
-  const getTranscript = () => {
-    // axios.post(process.env.REACT_APP_GAME_API_ENDPOINT + 'transcript', {messages, email: UserStore.email}).then(e => {
-    //   window.alert("We've sent you the chat history!")
-    // }).catch(err => {
-    //   window.alert('We weren\'t able to send you the email.')
-    // })
-  };
-
   const sendMessage = () => {
     GameStore.sendMessage(GameStore.messageContent, null, false, chatRoom.Name);
   };
@@ -140,9 +128,6 @@ export default view(function RoomPage() {
           <img className="characterImage" src={me} alt="Character profile " />
           <div className="characterName">{chatRoom?.Name}</div>
         </div>
-        {/* <div>
-          <button onClick={() => getTranscript()}>Get Transcription</button>
-        </div> */}
         <div className="chat">
           <div className="messages">
             <div

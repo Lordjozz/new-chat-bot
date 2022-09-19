@@ -76,15 +76,15 @@
         .them {
           background:	#f9f9f9;
           padding: 10px;
-          border-radius: 5px;
-          width: 60%;
+          border-radius: 10px;
+          max-width: 60%;
         }
 
         .you {
           background:	#C1E1C1;
           padding: 10px;
-          border-radius: 5px;
-          width: 60%;
+          border-radius: 10px;
+          max-width: 60%;
           justify-self: right;
           align-self: flex-end;
           text-align: right;
