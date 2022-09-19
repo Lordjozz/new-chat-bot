@@ -17,7 +17,7 @@ export default view(function RoomPage() {
   const storedHeight = localStorage.getItem('height');
   const desktop = window.screen.width > 900;
   const headerHeight = 63.5;
-  const messageBarHeight = desktop ? 128 : 100;
+  const messageBarHeight = desktop ? 120 : 100;
   const messageWindow = height - (headerHeight + messageBarHeight);
   const disableSubmit = !GameStore.messageContent;
 
