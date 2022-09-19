@@ -28,6 +28,7 @@ const GameStore = store({
     console.log('%cGame Store - Room', 'font-weight: 700; color: cyan;', room);
 
     // If it's a game message, only send, don't process
+
     if (reply) {
       setTimeout(() => {
         GameStore.messageHistory.push({

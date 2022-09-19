@@ -6,6 +6,8 @@ import GameStore from '../stores/game';
 import UserStore from '../stores/user';
 import SendIcon from '@mui/icons-material/Send';
 import me from '../images/me.jpeg';
+import useSound from 'use-sound';
+import lowpop from '../sounds/lowpop.wav';
 
 export default view(function RoomPage() {
   const match = useRouteMatch();
@@ -13,6 +15,7 @@ export default view(function RoomPage() {
   const [height, setHeight] = useState(0);
   const [screenChange, setScreenChange] = useState(false);
   const [messageRef, setMessageRef] = useState(null);
+  const [playAlert] = useSound(lowpop);
 
   const storedHeight = localStorage.getItem('height');
   const desktop = window.screen.width > 900;
@@ -20,13 +23,28 @@ export default view(function RoomPage() {
   const messageBarHeight = desktop ? 120 : 100;
   const messageWindow = height - (headerHeight + messageBarHeight);
   const disableSubmit = !GameStore.messageContent;
+  const storedCount = localStorage.getItem('messageCount');
 
   const chatRoom = GameStore?.game?.ChatRooms.find(
     (_) => _.Name === decodeURI(match.params.name)
   );
-
   const messages = GameStore?.messageHistory.filter(
     (_) => _.Room === chatRoom?.Name
+  );
+  const lastMessage = messages[messages.length - 1];
+
+  // new message check so we can play alert sound
+  // as need to use hook
+  useEffect(
+    function initMessages() {
+      if (+storedCount === messages.length - 1 && lastMessage?.From) {
+        playAlert();
+      }
+      if (chatRoom && messages.length > 0) {
+        localStorage.setItem('messageCount', JSON.stringify(messages.length));
+      }
+    },
+    [chatRoom, messages, lastMessage, playAlert, storedCount]
   );
 
   const onRefChange = useCallback((ref) => {
@@ -74,7 +92,7 @@ export default view(function RoomPage() {
         );
       });
     }
-  }, [chatRoom]);
+  }, [chatRoom, messages]);
 
   // sets off update of height if tablet orientation changes
   useEffect(() => {
