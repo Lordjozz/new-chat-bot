@@ -5,7 +5,6 @@ import Layout from '../components/layout/layout';
 import GameStore from '../stores/game';
 import UserStore from '../stores/user';
 import SendIcon from '@mui/icons-material/Send';
-import me from '../images/me.jpeg';
 import useSound from 'use-sound';
 import lowpop from '../sounds/lowpop.wav';
 
@@ -32,6 +31,7 @@ export default view(function RoomPage() {
     (_) => _.Room === chatRoom?.Name
   );
   const lastMessage = messages[messages.length - 1];
+  const profilePic = GameStore?.game?.Styling?.CharacterPicture;
 
   // new message check so we can play alert sound
   // as need to use hook
@@ -143,7 +143,11 @@ export default view(function RoomPage() {
     <Layout>
       <div className="room" ref={chatRef}>
         <div className="header">
-          <img className="characterImage" src={me} alt="Character profile " />
+          <img
+            className="characterImage"
+            src={profilePic}
+            alt="Character profile "
+          />
           <div className="characterName">{chatRoom?.Name}</div>
         </div>
         <div className="chat">
