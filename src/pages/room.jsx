@@ -48,7 +48,7 @@ export default view(function RoomPage() {
   );
 
   const onRefChange = useCallback((ref) => {
-    // trigger re-render on changes
+    // trigger re-render on changes.
     setMessageRef(ref);
   }, []);
 
@@ -121,14 +121,14 @@ export default view(function RoomPage() {
   };
 
   function renderMessages() {
-    return messages.map((msg) => {
+    return messages.map((msg, index) => {
       const type = msg.From === UserStore.name ? 'you' : 'them';
       return type === 'you' ? (
-        <div key={msg.id} className={type}>
+        <div key={index} className={type}>
           {msg.Message}
         </div>
       ) : (
-        <div key={msg.id} className={type}>
+        <div key={index} className={type}>
           {msg.messageType === 'image' ? (
             <img className="messageImage" src={msg.Message} alt="" />
           ) : (
