@@ -29,6 +29,7 @@
      height: 100vh;
   }
 
+
  
 
   .header {
@@ -40,6 +41,11 @@
     font-weight: 700;
     z-index: 1001;
     display:flex;
+
+    @media(max-width: 899px){
+      position:fixed;
+      width: 100%;
+   }
   }
 
   .characterImage{
@@ -132,9 +138,9 @@
       right:0;
       left: 0;
 
-      @media(max-width: 575px){
+      @media(max-width: 899px){
         padding:10px 20px 20px;
-
+        position:fixed;
       }
     }
 
