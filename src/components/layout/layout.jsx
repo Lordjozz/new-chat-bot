@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { view } from '@risingstack/react-easy-state';
 import layout from './layout.module.scss';
-import GetUserGeo from '../../helpers/get-user-geo';
 import GameStore from '../../stores/game';
-import UserStore from '../../stores/user';
 import GoogleFontLoader from 'react-google-font-loader';
 import axios from 'axios';
 
@@ -13,14 +11,6 @@ export default view(function Layout(props) {
 
   useEffect(() => {
     // Get the game
-    // Get user location
-    GetUserGeo()
-      .then((geo) => {
-        UserStore.geo = geo;
-      })
-      .catch((err) => {
-        console.log('err', err);
-      });
     axios
       .get(process.env.REACT_APP_GAME_API_ENDPOINT)
       .then((e) => {
