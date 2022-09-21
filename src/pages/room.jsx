@@ -10,10 +10,12 @@ import lowpop from '../sounds/lowpop.wav';
 
 export default view(function RoomPage() {
   const match = useRouteMatch();
-  const chatRef = useRef(null);
+  // const chatRef = useRef(null);
   const [height, setHeight] = useState(0);
   const [screenChange, setScreenChange] = useState(false);
   const [messageRef, setMessageRef] = useState(null);
+  const [chatRef, setChatRef] = useState(null);
+
   const [playAlert] = useSound(lowpop);
 
   const storedHeight = localStorage.getItem('height');
@@ -52,6 +54,19 @@ export default view(function RoomPage() {
     setMessageRef(ref);
   }, []);
 
+  const onChatRefChange = useCallback(
+    (ref) => {
+      if (ref) {
+        localStorage.setItem(
+          'height',
+          JSON.stringify(ref.getBoundingClientRect().height)
+        );
+        setHeight(ref.getBoundingClientRect().height);
+      }
+    },
+    [screenChange]
+  );
+
   // on load scroll to bottom
   useEffect(
     function scrollToBottom() {
@@ -65,19 +80,12 @@ export default view(function RoomPage() {
   );
 
   // set height in state
+
   useEffect(() => {
     if (storedHeight && Object.values(storedHeight).length > 0) {
       setHeight(JSON.parse(storedHeight));
     }
-
-    if (chatRef.current) {
-      localStorage.setItem(
-        'height',
-        JSON.stringify(chatRef.current.clientHeight)
-      );
-      setHeight(chatRef.current.clientHeight);
-    }
-  }, [screenChange, chatRef, storedHeight]);
+  }, [storedHeight]);
 
   useEffect(() => {
     if (chatRoom && messages.length === 0) {
@@ -102,6 +110,7 @@ export default view(function RoomPage() {
       .matchMedia('(orientation: portrait)')
       .addEventListener('change', (m) => {
         if (m.matches) {
+          console.log('PORTRAIT');
           setScreenChange(true);
         } else {
           setScreenChange(true);
@@ -111,6 +120,8 @@ export default view(function RoomPage() {
       .matchMedia('(orientation: landscape)')
       .addEventListener('change', (m) => {
         if (m.matches) {
+          console.log('Landscape');
+
           setScreenChange(true);
         } else {
           setScreenChange(false);
@@ -143,7 +154,7 @@ export default view(function RoomPage() {
 
   return (
     <Layout>
-      <div className="room" ref={chatRef}>
+      <div className="room" ref={onChatRefChange}>
         <div className="header">
           <img
             className="characterImage"
