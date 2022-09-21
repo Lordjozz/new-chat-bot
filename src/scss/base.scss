@@ -1,23 +1,8 @@
-:root {
-  --background: rgb(113, 121, 126, 0.3);
-  --dark-background: rgb(113, 121, 126, 0.3);
-  --standard-font-colour: rgb(0, 0, 0);
-}
-
-* {
-  color: var(--standard-font-colour);
-  font-family: var(--fonts);
-}
-
-html {
-   background-color: var(--background);
-}
-
-
 body {
   margin: 0;
-  background-color: var(--background);
+  background-color: var(--pageBackground);
   font-family: var(--fonts);
+  color: var(--fontColor);
 }
 
 @import './tables.scss';

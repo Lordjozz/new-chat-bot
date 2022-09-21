@@ -32,7 +32,7 @@
  
 
   .header {
-    background: #f2f6f8;
+    background: var(--headerColour);
     margin: 0;
     padding: 10px;
     position:sticky;
@@ -74,7 +74,7 @@
         }
 
         .them {
-          background:	#f9f9f9;
+          background:	var(--characterBubbleColour);
           padding: 10px;
           border-radius: 10px;
           max-width: 60%;
@@ -87,9 +87,9 @@
           width: 0px;
           height: 0px;
           position: absolute;
-          border-right: 7px solid #f9f9f9;
+          border-right: 7px solid var(--characterBubbleColour);
           border-left: 10px solid transparent;
-          border-top: 12px solid #f9f9f9;
+          border-top: 12px solid var(--characterBubbleColour);
           border-bottom: 10px solid transparent;
           left: -8px;
           top: 0px;
@@ -97,7 +97,7 @@
         }
 
         .you {
-          background:	#3fa09d;
+          background:	var(--userBubbleColour);
           padding: 10px;
           border-radius: 10px;
           max-width: 60%;
@@ -113,9 +113,9 @@
           width: 0px;
           height: 0px;
           position: absolute;
-          border-left: 7px solid #3fa09d;
+          border-left: 7px solid var(--userBubbleColour);
           border-right: 10px solid transparent;
-          border-top: 10px solid #3fa09d;
+          border-top: 10px solid var(--userBubbleColour);
           border-bottom: 10px solid transparent;
           right: -8px;
           top: 0px;
@@ -125,7 +125,7 @@
     }
 
     .messageWrap {
-      background: #f2f6f8;
+      background: var(--headerColour);;
       padding: 10px  20px;
       position:absolute;
       bottom:0;

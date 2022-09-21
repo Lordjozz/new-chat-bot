@@ -31,8 +31,28 @@ export default view(function Layout(props) {
             e.data ? e.data.Styling.FontFamily : 'Roboto'
           );
           document.documentElement.style.setProperty(
+            '--fontColor',
+            e.data ? e.data.Styling.FontColour : 'black'
+          );
+          document.documentElement.style.setProperty(
             '--backgroundColour',
             e.data ? e.data.Styling.BackgroundColour : '#ece5dd'
+          );
+          document.documentElement.style.setProperty(
+            '--pageBackground',
+            e.data ? e.data.Styling.PageColour : 'rgb(113, 121, 126, 0.3)'
+          );
+          document.documentElement.style.setProperty(
+            '--headerColour',
+            e.data ? e.data.Styling.HeaderColour : '#f2f6f8'
+          );
+          document.documentElement.style.setProperty(
+            '--characterBubbleColour',
+            e.data ? e.data.Styling.CharacterBubbleColour : '#f9f9f9'
+          );
+          document.documentElement.style.setProperty(
+            '--userBubbleColour',
+            e.data ? e.data.Styling.UserBubbleColour : '#3fa09d'
           );
           setLoaded(true);
         }
