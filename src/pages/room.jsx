@@ -35,6 +35,7 @@ export default view(function RoomPage() {
 
   // new message check so we can play alert sound
   // as need to use hook
+
   useEffect(
     function initMessages() {
       if (+storedCount === messages.length - 1 && lastMessage?.From) {
@@ -57,7 +58,6 @@ export default view(function RoomPage() {
     function scrollToBottom() {
       if (messageRef) {
         messageRef.scrollTo({
-          behavior: 'smooth',
           top: messageRef.scrollHeight,
         });
       }
@@ -82,17 +82,20 @@ export default view(function RoomPage() {
 
   useEffect(() => {
     if (chatRoom && messages.length === 0) {
+      console.log('NO MESSAGES, send');
       chatRoom.InitialMessages.forEach((msg) => {
         GameStore.sendMessage(
           msg.Message,
           msg.From,
           true,
           chatRoom.Name,
-          msg.Colour
+          msg.Colour,
+          msg.Delay,
+          msg.messageType
         );
       });
     }
-  }, [chatRoom, messages]);
+  }, [chatRoom]);
 
   // sets off update of height if tablet orientation changes
   useEffect(() => {

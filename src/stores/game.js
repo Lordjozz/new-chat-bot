@@ -8,7 +8,15 @@ const GameStore = store({
   messageHistory: getStoredValue('messageHistory', 'game-stores') || [],
   messageContent: getStoredValue('messageContent', 'game-stores'),
   left: getStoredValue('left', 'game-stores') || [],
-  sendMessage: (msg, who = null, reply = false, r = null, c = null, Delay) => {
+  sendMessage: (
+    msg,
+    who = null,
+    reply = false,
+    r = null,
+    c = null,
+    Delay,
+    messageType
+  ) => {
     const chatBox = document.querySelector('#msgBox');
 
     //
@@ -37,6 +45,7 @@ const GameStore = store({
           Message: msg,
           Room: r,
           Colour: c,
+          messageType,
         });
         setTimeout(() => {
           chatBox.scrollTo({ behavior: 'smooth', top: chatBox.scrollHeight });
@@ -67,12 +76,13 @@ const GameStore = store({
       // Check level
       // Get game step
       let name = UserStore.name;
-
+      console.log('HERE *********', messageType);
       GameStore.messageHistory.push({
         From: name,
         Message: msg,
         Room: r,
         Colour: UserStore.colour,
+        messageType,
       });
       GameStore.messageContent = '';
       setTimeout(() => {
@@ -244,7 +254,7 @@ const GameStore = store({
           shouldMatchNext = false;
 
           response.Messages.forEach((toSend, i) => {
-            console.log('Sending message', toSend.Message);
+            console.log('Sending message', toSend);
             setTimeout(() => {
               GameStore.sendMessage(
                 toSend.Message,
@@ -252,7 +262,8 @@ const GameStore = store({
                 true,
                 room.Name,
                 toSend.Colour,
-                toSend.Delay
+                toSend.Delay,
+                toSend.messageType
               );
             }, 700 * (i + 1));
           });
