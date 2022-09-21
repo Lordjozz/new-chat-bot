@@ -35,7 +35,6 @@ export default view(function RoomPage() {
 
   // new message check so we can play alert sound
   // as need to use hook
-
   useEffect(
     function initMessages() {
       if (+storedCount === messages.length - 1 && lastMessage?.From) {
