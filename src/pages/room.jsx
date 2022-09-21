@@ -10,11 +10,9 @@ import lowpop from '../sounds/lowpop.wav';
 
 export default view(function RoomPage() {
   const match = useRouteMatch();
-  // const chatRef = useRef(null);
   const [height, setHeight] = useState(0);
   const [screenChange, setScreenChange] = useState(false);
   const [messageRef, setMessageRef] = useState(null);
-  const [chatRef, setChatRef] = useState(null);
 
   const [playAlert] = useSound(lowpop);
 
@@ -89,7 +87,6 @@ export default view(function RoomPage() {
 
   useEffect(() => {
     if (chatRoom && messages.length === 0) {
-      console.log('NO MESSAGES, send');
       chatRoom.InitialMessages.forEach((msg) => {
         GameStore.sendMessage(
           msg.Message,
@@ -110,7 +107,6 @@ export default view(function RoomPage() {
       .matchMedia('(orientation: portrait)')
       .addEventListener('change', (m) => {
         if (m.matches) {
-          console.log('PORTRAIT');
           setScreenChange(true);
         } else {
           setScreenChange(true);
@@ -120,8 +116,6 @@ export default view(function RoomPage() {
       .matchMedia('(orientation: landscape)')
       .addEventListener('change', (m) => {
         if (m.matches) {
-          console.log('Landscape');
-
           setScreenChange(true);
         } else {
           setScreenChange(false);
