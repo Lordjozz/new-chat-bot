@@ -30,6 +30,10 @@ export default view(function Layout(props) {
             '--fonts',
             e.data ? e.data.Styling.FontFamily : 'Roboto'
           );
+          document.documentElement.style.setProperty(
+            '--backgroundColour',
+            e.data ? e.data.Styling.BackgroundColour : '#ece5dd'
+          );
           setLoaded(true);
         }
       })
