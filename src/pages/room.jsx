@@ -165,7 +165,7 @@ export default view(function RoomPage() {
               ref={onRefChange}
               style={{
                 maxHeight: `${messageWindow}px`,
-                overflowY: 'scroll',
+                overflowY: 'auto',
                 display: 'flex',
                 flexDirection: 'column',
                 marginBottom: '65px',
