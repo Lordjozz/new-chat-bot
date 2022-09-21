@@ -8,7 +8,7 @@ const GameStore = store({
   messageHistory: getStoredValue('messageHistory', 'game-stores') || [],
   messageContent: getStoredValue('messageContent', 'game-stores'),
   left: getStoredValue('left', 'game-stores') || [],
-  sendMessage: (msg, who = null, reply = false, r = null, c = null) => {
+  sendMessage: (msg, who = null, reply = false, r = null, c = null, Delay) => {
     const chatBox = document.querySelector('#msgBox');
 
     //
@@ -21,6 +21,7 @@ const GameStore = store({
     console.log('%cGame Store - Page', 'font-weight: 700; color: cyan;', page);
 
     const localGame = GameStore.game;
+    const defaultDelay = localGame.Delay;
 
     const room = localGame.ChatRooms.find(
       (_) => _.Name === decodeURI(page.name)
@@ -40,7 +41,7 @@ const GameStore = store({
         setTimeout(() => {
           chatBox.scrollTo({ behavior: 'smooth', top: chatBox.scrollHeight });
         }, 500);
-      }, 900);
+      }, Delay || defaultDelay);
       return;
     }
 
@@ -250,7 +251,8 @@ const GameStore = store({
                 toSend.From,
                 true,
                 room.Name,
-                toSend.Colour
+                toSend.Colour,
+                toSend.Delay
               );
             }, 700 * (i + 1));
           });
