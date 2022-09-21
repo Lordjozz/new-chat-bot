@@ -3,6 +3,11 @@ body {
   background-color: var(--pageBackground);
   font-family: var(--fonts);
   color: var(--fontColor);
+
+  overflow:hidden;
+  // position:fixed;
+  top:0;
+  bottom: 0;
 }
 
 @import './tables.scss';

@@ -19,6 +19,11 @@
   background-color:var(--backgroundColour); 
   padding: 0;
   position:relative;
+
+//   ::-webkit-scrollbar {
+//     width: 4px;
+// }
+
  
   @media(min-width: 900px){
     width: 800px;
@@ -83,7 +88,7 @@
           background:	var(--characterBubbleColour);
           padding: 10px;
           border-radius: 10px;
-          max-width: 60%;
+          max-width: 65%;
           position: relative;
           margin-top:15px;
         }
