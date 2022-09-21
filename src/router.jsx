@@ -1,7 +1,7 @@
 import { view } from '@risingstack/react-easy-state';
 import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import RoomPage from './Pages/Room';
+import RoomPage from './pages/room';
 import UserStore from './stores/user';
 
 export default view(function Router() {
