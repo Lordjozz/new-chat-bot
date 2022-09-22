@@ -19,7 +19,7 @@ export default view(function RoomPage() {
   const storedHeight = localStorage.getItem('height');
   const desktop = window.screen.width > 900;
   const headerHeight = 63.5;
-  const messageBarHeight = desktop ? 120 : 100;
+  const messageBarHeight = desktop ? 120 : 130;
   const messageWindow = height - (headerHeight + messageBarHeight);
   const disableSubmit = !GameStore.messageContent;
   const storedCount = localStorage.getItem('messageCount');
@@ -165,7 +165,7 @@ export default view(function RoomPage() {
               ref={onRefChange}
               style={{
                 maxHeight: `${messageWindow}px`,
-                overflowY: 'overlay',
+                overflowY: 'auto',
                 display: 'flex',
                 flexDirection: 'column',
                 marginBottom: '65px',
