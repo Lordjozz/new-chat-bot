@@ -34,7 +34,8 @@ export default view(function RoomPage() {
   );
   const lastMessage = messages[messages.length - 1];
   const profilePic = GameStore?.game?.Styling?.CharacterPicture;
-
+  const backgroundColour = GameStore?.game?.Styling?.BackgroundColour;
+  const pageColour = GameStore?.game?.Styling?.PageColour;
   // new message check so we can play alert sound
   // as need to use hook
   useEffect(
@@ -128,6 +129,10 @@ export default view(function RoomPage() {
       .matchMedia('(orientation: portrait)')
       .addEventListener('change', (m) => {
         if (m.matches) {
+          document.documentElement.style.setProperty(
+            '--pageBackground',
+            backgroundColour ? backgroundColour : 'rgb(113, 121, 126, 0.3)'
+          );
           setScreenChange(true);
         } else {
           setScreenChange(true);
@@ -137,6 +142,10 @@ export default view(function RoomPage() {
       .matchMedia('(orientation: landscape)')
       .addEventListener('change', (m) => {
         if (m.matches) {
+          document.documentElement.style.setProperty(
+            '--pageBackground',
+            pageColour ? pageColour : 'rgb(113, 121, 126, 0.3)'
+          );
           setScreenChange(true);
         } else {
           setScreenChange(false);
