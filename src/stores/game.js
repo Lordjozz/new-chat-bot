@@ -268,7 +268,6 @@ const GameStore = store({
           shouldMatchNext = false;
 
           response.Messages.forEach((toSend, i) => {
-            console.log('Sending message', toSend);
             setTimeout(() => {
               GameStore.sendMessage(
                 toSend.Message,

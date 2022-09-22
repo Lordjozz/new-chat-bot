@@ -14,7 +14,6 @@ export default view(function RoomPage() {
   const [screenChange, setScreenChange] = useState(false);
   const [messageRef, setMessageRef] = useState(null);
   const [chatRef, setChatRef] = useState(null);
-  // const [noScroll, setNoScroll] = useState(false);
 
   const [playAlert] = useSound(lowpop);
 
@@ -36,6 +35,7 @@ export default view(function RoomPage() {
   const profilePic = GameStore?.game?.Styling?.CharacterPicture;
   const backgroundColour = GameStore?.game?.Styling?.BackgroundColour;
   const pageColour = GameStore?.game?.Styling?.PageColour;
+
   // new message check so we can play alert sound
   // as need to use hook
   useEffect(
@@ -114,14 +114,14 @@ export default view(function RoomPage() {
     }
   }, [chatRoom]);
 
-  // const noScrollSet =
-  //   messageRef?.getBoundingClientRect()?.height + 126 <= window.screen.height;
+  const noScrollSet =
+    messageRef?.getBoundingClientRect()?.height + 142 < window.screen.height;
 
-  // and to set position absolute for messages (send messages to bottom)
-  // when we have scroll we can remove these
-  // useEffect(() => {
-  //   setNoScroll(noScrollSet);
-  // }, [setNoScroll, messageRef, noScrollSet]);
+  // remove fixed position when we have scroll
+  if (!noScrollSet && !desktop) {
+    const chatBox = document.querySelector('#msgBox');
+    chatBox?.style?.removeProperty('position');
+  }
 
   // sets off update of height if tablet orientation changes
   useEffect(() => {
@@ -178,15 +178,7 @@ export default view(function RoomPage() {
 
   return (
     <Layout>
-      <div
-        className="room"
-        ref={onChatRefChange}
-        // style={
-        //   {
-        //   position: !desktop && noScroll && 'relative',
-        //   }
-        // }
-      >
+      <div className="room" ref={onChatRefChange}>
         <div className="header">
           <img
             className="characterImage"
@@ -207,7 +199,7 @@ export default view(function RoomPage() {
                 flexDirection: 'column',
                 marginBottom: '65px',
                 paddingTop: !desktop && '65px',
-                //  position: !desktop && noScroll && 'absolute',
+                position: !desktop && noScrollSet && 'fixed',
               }}
             >
               {renderMessages()}
