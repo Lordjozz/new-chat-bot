@@ -18,19 +18,18 @@
 .room {
   background-color:var(--backgroundColour); 
   padding: 0;
-  // position:relative;
-
+ 
  
   @media(min-width: 900px){
     width: 800px;
     height: 75vh;
+    position: relative;
+
   }
 
   @media(max-width: 899px){
     //  height: 100vh;
   }
-
-
  
 
   .header {
@@ -69,12 +68,16 @@
         padding: 30px 30px 20px; 
         display: flex;
         flex-direction: column;
-        // position: absolute;
         bottom: 0;
 
         @media(max-width: 575px){
           padding: 20px;
         }
+
+        @media(min-width: 900px){
+          position: absolute;
+        }
+
 
         > div {
           border-bottom: 1px solid #eee;

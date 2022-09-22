@@ -1,5 +1,5 @@
 import { view } from '@risingstack/react-easy-state';
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useRouteMatch } from 'react-router';
 import Layout from '../components/layout/layout';
 import GameStore from '../stores/game';
@@ -13,6 +13,8 @@ export default view(function RoomPage() {
   const [height, setHeight] = useState(0);
   const [screenChange, setScreenChange] = useState(false);
   const [messageRef, setMessageRef] = useState(null);
+  const [chatRef, setChatRef] = useState(null);
+  // const [noScroll, setNoScroll] = useState(false);
 
   const [playAlert] = useSound(lowpop);
 
@@ -54,6 +56,7 @@ export default view(function RoomPage() {
 
   const onChatRefChange = useCallback(
     (ref) => {
+      setChatRef(ref);
       if (ref) {
         localStorage.setItem(
           'height',
@@ -68,13 +71,22 @@ export default view(function RoomPage() {
   // on load scroll to bottom
   useEffect(
     function scrollToBottom() {
-      if (messageRef) {
+      if (desktop && messageRef) {
         messageRef.scrollTo({
           top: messageRef.scrollHeight,
         });
       }
     },
     [messageRef]
+  );
+
+  useEffect(
+    function mobileScrollToBottom() {
+      if (!desktop) {
+        window.scroll(0, document.documentElement.scrollHeight);
+      }
+    },
+    [chatRef]
   );
 
   // set height in state
@@ -100,6 +112,15 @@ export default view(function RoomPage() {
       });
     }
   }, [chatRoom]);
+
+  // const noScrollSet =
+  //   messageRef?.getBoundingClientRect()?.height + 126 <= window.screen.height;
+
+  // and to set position absolute for messages (send messages to bottom)
+  // when we have scroll we can remove these
+  // useEffect(() => {
+  //   setNoScroll(noScrollSet);
+  // }, [setNoScroll, messageRef, noScrollSet]);
 
   // sets off update of height if tablet orientation changes
   useEffect(() => {
@@ -148,7 +169,15 @@ export default view(function RoomPage() {
 
   return (
     <Layout>
-      <div className="room" ref={onChatRefChange}>
+      <div
+        className="room"
+        ref={onChatRefChange}
+        // style={
+        //   {
+        //   position: !desktop && noScroll && 'relative',
+        //   }
+        // }
+      >
         <div className="header">
           <img
             className="characterImage"
@@ -169,6 +198,7 @@ export default view(function RoomPage() {
                 flexDirection: 'column',
                 marginBottom: '65px',
                 paddingTop: !desktop && '65px',
+                //  position: !desktop && noScroll && 'absolute',
               }}
             >
               {renderMessages()}

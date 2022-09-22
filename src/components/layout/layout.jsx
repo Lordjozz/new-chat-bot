@@ -8,6 +8,7 @@ import axios from 'axios';
 export default view(function Layout(props) {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState();
+  const isMobile = window.screen.width < 900;
 
   useEffect(() => {
     // Get the game
@@ -28,9 +29,14 @@ export default view(function Layout(props) {
             '--backgroundColour',
             e.data ? e.data.Styling.BackgroundColour : '#ece5dd'
           );
+
+          // fix mobile to one background
+          const pageColour = isMobile
+            ? e.data.Styling.BackgroundColour
+            : e.data.Styling.PageColour;
           document.documentElement.style.setProperty(
             '--pageBackground',
-            e.data ? e.data.Styling.PageColour : 'rgb(113, 121, 126, 0.3)'
+            e.data ? pageColour : 'rgb(113, 121, 126, 0.3)'
           );
           document.documentElement.style.setProperty(
             '--headerColour',

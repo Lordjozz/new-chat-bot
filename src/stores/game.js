@@ -18,6 +18,7 @@ const GameStore = store({
     messageType
   ) => {
     const chatBox = document.querySelector('#msgBox');
+    const isMobile = window.screen.width < 900;
 
     //
     //
@@ -48,7 +49,15 @@ const GameStore = store({
           messageType,
         });
         setTimeout(() => {
-          chatBox.scrollTo({ behavior: 'smooth', top: chatBox.scrollHeight });
+          isMobile
+            ? window.scrollTo({
+                behavior: 'smooth',
+                top: document.documentElement.scrollHeight,
+              })
+            : chatBox.scrollTo({
+                behavior: 'smooth',
+                top: chatBox.scrollHeight,
+              });
         }, 500);
       }, Delay || defaultDelay);
       return;
@@ -86,7 +95,12 @@ const GameStore = store({
       });
       GameStore.messageContent = '';
       setTimeout(() => {
-        chatBox.scrollTo({ behavior: 'smooth', top: chatBox.scrollHeight });
+        isMobile
+          ? window.scroll({
+              behavior: 'smooth',
+              top: document.documentElement.scrollHeight,
+            })
+          : chatBox.scrollTo({ behavior: 'smooth', top: chatBox.scrollHeight });
       }, 500);
     }
 
