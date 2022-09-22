@@ -19,11 +19,10 @@ export default view(function RoomPage() {
   const storedHeight = localStorage.getItem('height');
   const desktop = window.screen.width > 900;
   const headerHeight = 63.5;
-  const messageBarHeight = desktop ? 120 : 130;
+  const messageBarHeight = desktop ? 120 : 100;
   const messageWindow = height - (headerHeight + messageBarHeight);
   const disableSubmit = !GameStore.messageContent;
   const storedCount = localStorage.getItem('messageCount');
-  const isMobile = window.screen.width < 576;
 
   const chatRoom = GameStore?.game?.ChatRooms.find(
     (_) => _.Name === decodeURI(match.params.name)
@@ -164,11 +163,12 @@ export default view(function RoomPage() {
               id="msgBox"
               ref={onRefChange}
               style={{
-                maxHeight: `${messageWindow}px`,
-                overflowY: 'auto',
+                maxHeight: desktop && `${messageWindow}px`,
+                overflowY: desktop && 'auto',
                 display: 'flex',
                 flexDirection: 'column',
                 marginBottom: '65px',
+                paddingTop: !desktop && '65px',
               }}
             >
               {renderMessages()}

@@ -18,7 +18,7 @@
 .room {
   background-color:var(--backgroundColour); 
   padding: 0;
-  position:relative;
+  // position:relative;
 
  
   @media(min-width: 900px){
@@ -27,7 +27,7 @@
   }
 
   @media(max-width: 899px){
-     height: 100vh;
+    //  height: 100vh;
   }
 
 
@@ -69,7 +69,7 @@
         padding: 30px 30px 20px; 
         display: flex;
         flex-direction: column;
-        position: absolute;
+        // position: absolute;
         bottom: 0;
 
         @media(max-width: 575px){
