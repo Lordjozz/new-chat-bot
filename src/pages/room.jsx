@@ -25,10 +25,10 @@ export default view(function RoomPage() {
   const disableSubmit = !GameStore.messageContent;
   const storedCount = localStorage.getItem('messageCount');
 
-  const chatRoom = GameStore?.game?.ChatRooms.find(
+  const chatRoom = GameStore?.game?.ChatRooms?.find(
     (_) => _.Name === decodeURI(match.params.name)
   );
-  const messages = GameStore?.messageHistory.filter(
+  const messages = GameStore?.messageHistory?.filter(
     (_) => _.Room === chatRoom?.Name
   );
   const lastMessage = messages[messages.length - 1];
