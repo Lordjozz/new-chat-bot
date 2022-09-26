@@ -36,7 +36,8 @@ export default view(function RoomPage() {
   const profilePic = GameStore?.game?.Styling?.CharacterPicture;
   const backgroundColour = GameStore?.game?.Styling?.BackgroundColour;
   const pageColour = GameStore?.game?.Styling?.PageColour;
-  const chatWidth = window.screen.width - mobile ? 40 : 60;
+  const chatPadding = mobile ? 40 : 60;
+  const chatWidth = window.screen.width - chatPadding;
 
   // new message check so we can play alert sound
   // as need to use hook
