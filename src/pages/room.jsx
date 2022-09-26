@@ -37,7 +37,7 @@ export default view(function RoomPage() {
   const backgroundColour = GameStore?.game?.Styling?.BackgroundColour;
   const pageColour = GameStore?.game?.Styling?.PageColour;
   const chatPadding = mobile ? 40 : 60;
-  const chatWidth = messageRef?.getBoundingClientRect()?.width - chatPadding;
+  const chatWidth = chatRef?.getBoundingClientRect()?.width - chatPadding;
 
   // new message check so we can play alert sound
   // as need to use hook
