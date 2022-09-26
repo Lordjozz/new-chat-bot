@@ -19,6 +19,7 @@ export default view(function RoomPage() {
 
   const storedHeight = localStorage.getItem('height');
   const desktop = window.screen.width > 900;
+  const mobile = window.screen.width < 575;
   const headerHeight = 63.5;
   const messageBarHeight = desktop ? 120 : 100;
   const messageWindow = height - (headerHeight + messageBarHeight);
@@ -35,6 +36,7 @@ export default view(function RoomPage() {
   const profilePic = GameStore?.game?.Styling?.CharacterPicture;
   const backgroundColour = GameStore?.game?.Styling?.BackgroundColour;
   const pageColour = GameStore?.game?.Styling?.PageColour;
+  const chatWidth = window.screen.width - mobile ? 40 : 60;
 
   // new message check so we can play alert sound
   // as need to use hook
@@ -200,6 +202,7 @@ export default view(function RoomPage() {
                 marginBottom: '65px',
                 paddingTop: !desktop && '65px',
                 position: !desktop && noScrollSet && 'fixed',
+                width: chatWidth,
               }}
             >
               {renderMessages()}
