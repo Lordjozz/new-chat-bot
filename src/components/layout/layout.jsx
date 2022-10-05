@@ -54,6 +54,14 @@ export default view(function Layout(props) {
             '--linkColour',
             e.data ? e.data.Styling.LinkColour : '#3366CC'
           );
+          document.documentElement.style.setProperty(
+            '--userTextColour',
+            e.data ? e.data.Styling.UserTextColour : '#000000'
+          );
+          document.documentElement.style.setProperty(
+            '--characterTextColour',
+            e.data ? e.data.Styling.CharacterTextColour : '#000000'
+          );
           setLoaded(true);
         }
       })
