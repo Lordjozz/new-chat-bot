@@ -36,6 +36,7 @@ export default view(function RoomPage() {
   const profilePic = GameStore?.game?.Styling?.CharacterPicture;
   const backgroundColour = GameStore?.game?.Styling?.BackgroundColour;
   const pageColour = GameStore?.game?.Styling?.PageColour;
+  const pageHeadingColour = GameStore?.game?.Styling?.PageHeadingColour;
   const chatPadding = mobile ? 40 : 60;
   const chatWidth = chatRef?.getBoundingClientRect()?.width - chatPadding;
 
@@ -188,7 +189,7 @@ export default view(function RoomPage() {
             src={profilePic}
             alt="Character profile "
           />
-          <div className="characterName">{chatRoom?.Name}</div>
+          <div className="characterName" style="color:{PageHeadingColour}">{chatRoom?.Name}</div>
         </div>
         <div className="chat">
           <div className="messages">
