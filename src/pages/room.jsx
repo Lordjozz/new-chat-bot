@@ -189,7 +189,7 @@ export default view(function RoomPage() {
             src={profilePic}
             alt="Character profile "
           />
-          <div className="characterName" style="color:${PageHeadingColour}">{chatRoom?.Name}</div>
+          <div className="characterName" style={{color: pageHeadingColour }}>{chatRoom?.Name}</div>
         </div>
         <div className="chat">
           <div className="messages">
