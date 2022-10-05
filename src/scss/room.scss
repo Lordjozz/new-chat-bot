@@ -90,6 +90,7 @@
 
         .them {
           background:	var(--characterBubbleColour);
+          color:	var(--characterTextColour);
           padding: 10px;
           border-radius: 10px;
           max-width: 65%;
@@ -114,6 +115,7 @@
 
         .you {
           background:	var(--userBubbleColour);
+          color:	var(--userTextColour);
           padding: 10px;
           border-radius: 10px;
           max-width: 60%;
