@@ -37,7 +37,6 @@ export default view(function RoomPage() {
   const backgroundColour = GameStore?.game?.Styling?.BackgroundColour;
   const pageColour = GameStore?.game?.Styling?.PageColour;
   const pageHeadingColour = GameStore?.game?.Styling?.PageHeadingColour;
-  const linkColour = GameStore?.game?.Styling?.LinkColour;
   const chatPadding = mobile ? 40 : 60;
   const chatWidth = chatRef?.getBoundingClientRect()?.width - chatPadding;
 
