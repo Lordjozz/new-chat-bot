@@ -58,6 +58,11 @@
   .characterName {
     line-height: 48px;
   }
+  
+  a:link
+  {
+    color: var(--linkColor);
+  }
 
 
   .chat {
