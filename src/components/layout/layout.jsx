@@ -50,6 +50,10 @@ export default view(function Layout(props) {
             '--userBubbleColour',
             e.data ? e.data.Styling.UserBubbleColour : '#3fa09d'
           );
+          document.documentElement.style.setProperty(
+            '--linkColour',
+            e.data ? e.data.Styling.LinkColour : '#3366CC'
+          );
           setLoaded(true);
         }
       })
