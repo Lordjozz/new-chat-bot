@@ -63,6 +63,14 @@
   {
     color: var(--linkColour);
   }
+  
+  a:active {
+    color: var(--linkColour);
+  }
+  
+  a:visited {
+    color: var(--linkColour);
+  }
 
 
   .chat {
