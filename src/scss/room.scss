@@ -105,6 +105,7 @@
           position: relative;
           margin-top:15px;
           align-self: flex-start;
+          word-wrap: break-word;
         }
 
         .them:before {
@@ -132,6 +133,7 @@
           text-align: right;
           margin-top:15px;
           position: relative;
+          word-wrap: break-word;
         }
 
         .you:before {
