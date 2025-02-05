@@ -32,8 +32,11 @@ export default view(function RoomPage() {
   const messages = GameStore?.messageHistory?.filter(
     (_) => _.Room === chatRoom?.Name
   );
+
+
   const lastMessage = messages[messages.length - 1];
-  const profilePic = GameStore?.game?.Styling?.CharacterPicture;
+  //const profilePic = GameStore?.game?.Styling?.CharacterPicture;
+  const profilePic = GameStore?.game?.chatRoom?.RoomPicture;
   const backgroundColour = GameStore?.game?.Styling?.BackgroundColour;
   const pageColour = GameStore?.game?.Styling?.PageColour;
   const pageHeadingColour = GameStore?.game?.Styling?.PageHeadingColour;
