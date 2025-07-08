@@ -193,7 +193,7 @@ export default view(function RoomPage() {
             src={profilePic}
             alt="Character profile "
           />
-          <div className="characterName" style={{color: pageHeadingColour }}>{chatRoom?.Title}</div>
+          <div className="characterName" style={{color: pageHeadingColour }}>{GameStore?.game?.Title}</div>
         </div>
         <div className="chat">
           <div className="messages">
