@@ -43,6 +43,10 @@ export default view(function Layout(props) {
             e.data ? e.data.Styling.HeaderColour : '#f2f6f8'
           );
           document.documentElement.style.setProperty(
+            '--iconColour',
+            e.data ? e.data.Styling.IconColour : '#d3d3d3'
+          );
+          document.documentElement.style.setProperty(
             '--characterBubbleColour',
             e.data ? e.data.Styling.CharacterBubbleColour : '#f9f9f9'
           );
