@@ -37,6 +37,7 @@ export default view(function RoomPage() {
   const lastMessage = messages[messages.length - 1];
   //const profilePic = GameStore?.game?.Styling?.CharacterPicture;
   const profilePic = chatRoom?.RoomPicture;
+  const compLogo = GameStore?.game?.Styling?.companyLogo;
   const backgroundColour = GameStore?.game?.Styling?.BackgroundColour;
   const pageColour = GameStore?.game?.Styling?.PageColour;
   const pageHeadingColour = GameStore?.game?.Styling?.PageHeadingColour;
@@ -194,6 +195,11 @@ export default view(function RoomPage() {
             alt="Character profile "
           />
           <div className="characterName" style={{color: pageHeadingColour }}>{GameStore?.game?.Title}</div>
+          <img
+            className="companyImage"
+            src={compLogo}
+            alt="Company Logo"
+          />
         </div>
         <div className="chat">
           <div className="messages">
