@@ -189,17 +189,21 @@ export default view(function RoomPage() {
     <Layout>
       <div className="room" ref={onChatRefChange}>
         <div className="header">
-          <img
-            className="characterImage"
-            src={profilePic}
-            alt="Character profile "
-          />
+          {profilePic && (
+            <img
+              className="characterImage"
+              src={profilePic}
+              alt="Character profile"
+            />
+          )}
           <div className="characterName" style={{color: pageHeadingColour }}>{GameStore?.game?.Title}</div>
-          <img
-            className="companyImage"
-            src={compLogo}
-            alt="Company Logo"
-          />
+          {compLogo && (
+            <img
+              className="companyImage"
+              src={compLogo}
+              alt="Company Logo"
+            />
+          )}
         </div>
         <div className="chat">
           <div className="messages">
