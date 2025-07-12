@@ -48,9 +48,8 @@
    }
   }
 
-  svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-vubbuv
-  {
-    fill: var(--iconColour);
+  .MuiSvgIcon-root {
+  fill: var(--iconColour) !important;
   }
   
   .characterImage{
